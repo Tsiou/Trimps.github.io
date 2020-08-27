@@ -397,7 +397,7 @@ var toReturn = {
 		getEnemyAttack: /**
 		 * @param {number} level
 		 * @param {string | number} name
-		 * @param {any} ignoreImpStat
+		 * @param {any} [ignoreImpStat]
 		 */
  function (level, name, ignoreImpStat) {
 			var world = getCurrentMapObject();
@@ -439,7 +439,7 @@ var toReturn = {
 		getEnemyHealth: /**
 		 * @param {number} level
 		 * @param {string | number} name
-		 * @param {any} ignoreImpStat
+		 * @param {any} [ignoreImpStat]
 		 */
  function (level, name, ignoreImpStat) {
 			var world = getCurrentMapObject();
@@ -549,7 +549,7 @@ var toReturn = {
 				return prettify(number * 100);
 			},
 			getCombatModifier: /**
-			 * @param {any} forHelium
+			 * @param {any} [forHelium]
 			 */
  function (forHelium) {
 				var mod = this.currentDebuffPower * this.getModifier(0, forHelium);
@@ -1557,7 +1557,7 @@ var toReturn = {
 			description: "<p>Automatically pick up each level of Bionic Wonderland (BW) as you pass a BW Zone. Will not work if you have already missed any BWs this run, or if you reach a Zone higher than any BW you have ever cleared before.</p><p>In addition, give all current and future copies of Bionic Wonderland the 'Fast Attacks' special modifier.</p>",
 			name: "Bionic Magnet I",
 			onPurchase: /**
-			 * @param {any} clear
+			 * @param {any} [clear]
 			 */
  function (clear) {
 				addMapModifier('Bionic', 'fa');
@@ -2344,7 +2344,7 @@ var toReturn = {
 			max: 7,
 			tooltip: "Your experiences in the Dimension of Strong Things have taught you the value of taking your time. Every level of Meditation will increase your Trimps' gather speed by 1% for every 10 minutes spent on the same Zone, up to 1 hour, even when offline. This bonus is reset after clearing the current Zone. Maximum of 7 levels.",
 			getBonusPercent: /**
-			 * @param {any} justStacks
+			 * @param {any} [justStacks]
 			 */
  function (justStacks) {
 				var timeOnZone = getGameTime() - game.global.zoneStarted;
@@ -2762,7 +2762,7 @@ var toReturn = {
 				updateBalanceStacks();
 			},
 			getHealthMult: /**
-			 * @param {any} formatText
+			 * @param {any} [formatText]
 			 */
  function (formatText) {
 				var num = Math.pow(0.99, this.balanceStacks);
@@ -2770,7 +2770,7 @@ var toReturn = {
 				return num;
 			},
 			getGatherMult: /**
-			 * @param {any} formatText
+			 * @param {any} [formatText]
 			 */
  function (formatText) {
 				if (formatText) return this.balanceStacks + "%";
@@ -3042,7 +3042,7 @@ var toReturn = {
 			fireAbandon: true,
 			lowestStacks: 150,
 			getHealthMult: /**
-			 * @param {any} forDisplay
+			 * @param {any} [forDisplay]
 			 */
  function(forDisplay){
 				var mult = (this.stacks / 10);
@@ -3435,7 +3435,7 @@ var toReturn = {
 				updateBalanceStacks();
 			},
 			getAttackMult: /**
-			 * @param {any} formatText
+			 * @param {any} [formatText]
 			 */
  function (formatText) {
 				var num = Math.pow(0.99, this.balanceStacks);
@@ -3443,7 +3443,7 @@ var toReturn = {
 				return num;
 			},
 			getGatherMult: /**
-			 * @param {any} formatText
+			 * @param {any} [formatText]
 			 */
  function (formatText) {
 				if (formatText) return this.balanceStacks + "%";
