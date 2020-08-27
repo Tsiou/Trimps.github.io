@@ -4072,7 +4072,7 @@ var toReturn = {
 				cancelTooltip();
 			},
 			checkAutomator: /**
-			 * @param {any} makePurchase
+			 * @param {any} [makePurchase]
 			 */
  function(makePurchase){
 				if (this.pauseAuto || game.global.archString == "") return "off";

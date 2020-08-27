@@ -17,7 +17,8 @@
 		<trimps.github.io/license.txt>). If not, see
 		<http://www.gnu.org/licenses/>. */
 
-
+// @ts-check
+"use strict";
 var customUp;
 var tooltipUpdateFunction = "";
 var lastMousePos = [];
@@ -27,6 +28,18 @@ var openTooltip = null;
 
 //"onmouseover="tooltip('*TOOLTIP_TITLE*', 'customText', event, '*TOOLTIP_TEXT*');" onmouseout="tooltip('hide')""
 //tooltip('confirm', null, 'update', '*TEXT STRING*', '*FUNCTION()*', '*TIP TITLE*', '*BUTTON TEXT*')
+/**
+ * @param {string | string[]} what
+ * @param {string} [isItIn]
+ * @param {string | Event} [event]
+ * @param {string | number | boolean} [textString]
+ * @param {string | number} [attachFunction]
+ * @param {string | number} [numCheck]
+ * @param {string} [renameBtn]
+ * @param {boolean} [noHide]
+ * @param {boolean} [hideCancel]
+ * @param {boolean} [ignoreShift]
+ */
 function tooltip(what, isItIn, event, textString, attachFunction, numCheck, renameBtn, noHide, hideCancel, ignoreShift) { //Now 20% less menacing. Work in progress.
 	if (!game.options.menu.bigPopups.enabled && (
 		what == "The Improbability" ||
@@ -1429,11 +1442,17 @@ function tooltip(what, isItIn, event, textString, attachFunction, numCheck, rena
 	if (event != "update") positionTooltip(elem, event, renameBtn);
 }
 
+/**
+ * @param {string} text
+ */
 function screenReaderAssert(text){
 	var elem = document.getElementById('screenReaderTooltip');
 	if (elem) elem.innerHTML = text;
 }
 
+/**
+ * @param {string | number} index
+ */
 function updateMazPreset(index){
 	var preset = parseInt(document.getElementById('mazPreset' + index).value, 10);
 	var newClass = (preset == 3) ? "mazBwMainOn" : "mazBwMainOff";
@@ -1448,6 +1467,9 @@ function updateMazPreset(index){
 	swapClass('mazBwZone', newClass, row);
 }
 
+/**
+ * @param {number} fromForm
+ */
 function getExtraScryerText(fromForm){
 	var tooltipText = "";
 	var formName = (fromForm == 4) ? "Scryer" : "Wind";
@@ -1473,6 +1495,10 @@ function getExtraScryerText(fromForm){
 	return tooltipText;
 }
 
+/**
+ * @param {Element} elem
+ * @param {boolean} forceSetting
+ */
 function swapNiceCheckbox(elem, forceSetting){
 	//Send just the elem to swap the current state
 	//Send elem and either true or false as forceSetting to force the checkbox to checked/unchecked
@@ -1484,6 +1510,9 @@ function swapNiceCheckbox(elem, forceSetting){
 	elem.setAttribute('data-checked', checked);
 }
 
+/**
+ * @param {string | any[]} list
+ */
 function formatListCommasAndStuff(list){
 	var output = "";
 	if (!Array.isArray(list)) return list;
@@ -1497,10 +1526,19 @@ function formatListCommasAndStuff(list){
 	return output;
 }
 
+/**
+ * @param {HTMLElement} elem
+ */
 function readNiceCheckbox(elem){
 	return (elem.dataset.checked == "true");
 }
 
+/**
+ * @param {string} id
+ * @param {string} extraClass
+ * @param {boolean} enabled
+ * @param {string} [extraFunction]
+ */
 function buildNiceCheckbox(id, extraClass, enabled, extraFunction){
 	var html = (enabled) ? "icomoon icon-checkbox-checked' data-checked='true' " : "icomoon icon-checkbox-unchecked' data-checked='false' ";
 	var defaultClasses = " niceCheckbox noselect";
@@ -1512,6 +1550,10 @@ function buildNiceCheckbox(id, extraClass, enabled, extraFunction){
 	return html;	
 }
 
+/**
+ * @param {string} what
+ * @param {string} isItIn
+ */
 function checkAlert(what, isItIn){
 	if (document.getElementById(what + "Alert") === null) return;
 		if (typeof game[isItIn] !== 'undefined') game[isItIn][what].alert = false;
@@ -1520,6 +1562,9 @@ function checkAlert(what, isItIn){
 		if (document.getElementById(isItIn + "Alert") !== null)	document.getElementById(isItIn + "Alert").innerHTML = "";
 }
 
+/**
+ * @param {string} where
+ */
 function countAlertsIn(where){
 	var count = 0;
 	where = game[where];
@@ -1530,6 +1575,11 @@ function countAlertsIn(where){
 	return count;
 }
 
+/**
+ * @param {HTMLElement} elem
+ * @param {Event} event
+ * @param {string} extraInf
+ */
 function positionTooltip(elem, event, extraInf){
 	var cordx = 0;
 	var cordy = 0;
@@ -1584,6 +1634,11 @@ function positionTooltip(elem, event, extraInf){
 	elem.style.top = Math.floor(setTop) + "px";
 }
 
+/**
+ * @param {{ [x: string]: any; cost?: any; done?: any; level?: any; owned?: any; purchased?: any; }} toTip
+ * @param {string | number} what
+ * @param {string} isItIn
+ */
 function addTooltipPricing(toTip, what, isItIn) {
 	var costText = "";
 	var price;
@@ -1652,6 +1707,10 @@ function configMessages(){
 	}
 }
 
+/**
+ * @param {any} what
+ * @param {any} event
+ */
 function messageConfigHover(what, event){
 	var text = "";
 	var title = "";
@@ -1721,6 +1780,9 @@ function messageConfigHover(what, event){
 var geneMenuOpen = false;
 
 // Correct function to call to cancel the current tooltip
+/**
+ * @param {boolean} [ignore2]
+ */
 function cancelTooltip(ignore2){
 	unlockTooltip();
 	tooltip("hide");
@@ -1740,6 +1802,10 @@ function unlockTooltip(){
 	game.global.lockTooltip = false;
 }
 
+/**
+ * @param {string} what
+ * @param {boolean} rawNum
+ */
 function getPsString(what, rawNum) {
 	if (what == "helium") return;
 	var resOrder = ["food", "wood", "metal", "science", "gems", "fragments"];
@@ -1942,6 +2008,10 @@ function getZoneMinutes(){
 }
 
 
+/**
+ * @param {any} event
+ * @param {boolean} update
+ */
 function getZoneStats(event, update) {
 	if (!update && game.global.lockTooltip) return;
 	var textString =  "<table class='bdTable table table-striped'><tbody>";
@@ -2095,12 +2165,20 @@ function getTrimpPs() {
 	tooltip('confirm', null, 'update', textString, "getTrimpPs()", "Trimps Per Second", "Refresh", true);
 }
 
+/**
+ * @param {number} number
+ * @param {number} minFluct
+ * @param {number} maxFluct
+ */
 function getFluctuation(number, minFluct, maxFluct){
 	var min = Math.floor(number * (1 - minFluct));
     var max = Math.ceil(number + (number * maxFluct));
 	return "<td>" + prettify(min) + "</td><td>" + prettify(max) + "</td>";
 }
 
+/**
+ * @param {string} what
+ */
 function getBattleStatBd(what) {
 	var equipment = {};
 	var name = what.charAt(0).toUpperCase() + what.substr(1, what.length);
@@ -2643,12 +2721,19 @@ function getBattleStatBd(what) {
 	}
 }
 
+/**
+ * @param {number} mult
+ */
 function formatMultAsPercent(mult){
 	if (mult < 1)
 		return "- " + (Math.round(10000 * (1 - mult)) / 100) + "%";
 	return "+ " + (Math.round(10000 * (mult - 1)) / 100) + "%";
 }
 
+/**
+ * @param {boolean} [makeLarge]
+ * @param {boolean} [makeSuperLarge]
+ */
 function verticalCenterTooltip(makeLarge, makeSuperLarge){
 	var tipElem = document.getElementById('tooltipDiv');
 	if (makeLarge){
@@ -2669,6 +2754,9 @@ function verticalCenterTooltip(makeLarge, makeSuperLarge){
 	tipElem.style.top = (dif > 0) ? (dif / 2) + "px" : "0";
 }
 
+/**
+ * @param {string} word
+ */
 function capitalizeFirstLetter(word){
 	return word.charAt(0).toUpperCase() + word.slice(1);
 }
@@ -2732,6 +2820,9 @@ function getMaxTrimps() {
 	tooltip('confirm', null, 'update', textString, "getMaxTrimps()", "Max Trimps", "Refresh", true);
 }
 
+/**
+ * @param {string} what
+ */
 function getMaxResources(what) {
 	var structure;
 	switch (what) {
@@ -2775,6 +2866,9 @@ function getMaxResources(what) {
 	tooltip('confirm', null, 'update', textString, "getMaxResources('" + what + "')", "Max " + what, "Refresh", true);
 }
 
+/**
+ * @param {string} what
+ */
 function getLootBd(what) {
     var map;
 	var world;
@@ -3182,12 +3276,18 @@ function getLootBd(what) {
 	verticalCenterTooltip();
 }
 
+/**
+ * @param {any} updateOnly
+ */
 function swapNotation(updateOnly){
 	if (!updateOnly) game.options.menu.standardNotation.enabled = !game.options.menu.standardNotation.enabled;
 	document.getElementById("notationBtn").innerHTML = (game.options.menu.standardNotation.enabled) ? "Standard Notation" : "Scientific Notation";
 	if (game.global.fighting) updateAllBattleNumbers();
 }
 
+/**
+ * @param {string | number | number[]} number
+ */
 function prettify(number) {
 	var numberTmp = number;
 	if (!isFinite(number)) return "<span class='icomoon icon-infinity'></span>";
@@ -3251,6 +3351,9 @@ function prettify(number) {
 	return prettifySub(number) + suffix;
 }
 
+/**
+ * @param {number | boolean} number
+ */
 function romanNumeral(number){
 //This is only accurate up to 399, but that's more than plenty for this game. Probably not the cleanest converter ever, but I thought of it myself, it works, and I'm proud.
 	var numeral = "";
@@ -3294,6 +3397,9 @@ function romanNumeral(number){
 	return numeral;
 }
 
+/**
+ * @param {string | number} number
+ */
 function prettifySub(number){
 	number = parseFloat(number);
 	var floor = Math.floor(number);
@@ -3304,6 +3410,9 @@ function prettifySub(number){
 	return number.toFixed(3 - floor.toString().length);
 }
 
+/**
+ * @param {boolean} [keepPortal]
+ */
 function resetGame(keepPortal) {
 	rewardingTimeoutHeirlooms = false;
 	if (game.options.menu.pauseGame.enabled){
@@ -4015,6 +4124,14 @@ var pendingLogs = {
 };
 
 var messageLock = false;
+/**
+ * @param {string} messageString
+ * @param {string} type
+ * @param {string} [lootIcon]
+ * @param {string} [extraClass]
+ * @param {string} [extraTag]
+ * @param {string} [htmlPrefix]
+ */
 function message(messageString, type, lootIcon, extraClass, extraTag, htmlPrefix) {
 	if (usingScreenReader){
 		if (type == "Story") document.getElementById('srSumLastStory').innerHTML = "Z " + game.global.world + ": " + messageString;
@@ -4076,6 +4193,9 @@ function message(messageString, type, lootIcon, extraClass, extraTag, htmlPrefix
 	}
 }
 
+/**
+ * @param {number} index
+ */
 function adjustMessageIndexes(index){
     for (var item in pendingLogs){
         if (item == "all" || item == "RAF") continue;
@@ -4121,11 +4241,17 @@ function getCurrentTime(){
 	return hours + ":" + minutes + ":" + seconds;
 }
 
+/**
+ * @param {string | any[] | HTMLCollectionOf<Element>} nodeList
+ */
 function nodeToArray(nodeList){
 	for(var a=[], l=nodeList.length; l--; a[l]=nodeList[l]);
     return a;
 }
 
+/**
+ * @param {string} what
+ */
 function trimMessages(what){
 	var log = document.getElementById("log");
 	var toChange = document.getElementsByClassName(what + "Message");
@@ -4138,6 +4264,10 @@ function trimMessages(what){
 	}
 }
 
+/**
+ * @param {string} what
+ * @param {boolean} updateOnly
+ */
 function filterMessage(what, updateOnly){ //send true for updateOnly
 	var log = document.getElementById("log");
 	var displayed = game.global.messages[what].enabled;
@@ -4162,6 +4292,9 @@ function filterMessage(what, updateOnly){ //send true for updateOnly
 //
 //Menu Stuff
 var lastScrolls = {};
+/**
+ * @param {string} what
+ */
 function filterTabs (what) {
 	document.getElementById('talentsTab').style.display = (game.global.highestLevelCleared >= 180) ? "table-cell" : "none";
 	var buyContainer = document.getElementById('buyContainer');
@@ -4180,6 +4313,10 @@ function filterTabs (what) {
 	if (lastScrolls[what]) buyContainer.scrollTop = lastScrolls[what];
 }
 
+/**
+ * @param {string} what
+ * @param {boolean} enable
+ */
 function enableDisableTab(what, enable){
 	var elem = document.getElementById(what + "Tab");
 	if(enable)
@@ -4190,10 +4327,17 @@ function enableDisableTab(what, enable){
 }
 
 
+/**
+ * @param {any} displayed
+ */
 function getTabClass(displayed){
 	return (displayed) ? "btn btn-success logFlt" : "btn btn-danger logFlt";
 }
 
+/**
+ * @param {number} amount
+ * @param {any} forPortal
+ */
 function setMax(amount, forPortal){
 	game.global.maxSplit = amount;
 	cancelTooltip();
@@ -4202,6 +4346,10 @@ function setMax(amount, forPortal){
 	if (forPortal) displayPortalUpgrades(true);
 }
 
+/**
+ * @param {number} [what]
+ * @param {boolean} [p]
+ */
 function numTab(what, p) {
 	var num = 0;
 	if (what == 6 && game.global.buyAmt == "Max") tooltip('Max', null, 'update', p);
@@ -4291,6 +4439,9 @@ function numTab(what, p) {
 	}
 }
 
+/**
+ * @param {string | number} num
+ */
 function convertNotationsToNumber(num){
 	num = num.toLowerCase();
 	if (num.split('e')[1]){
@@ -4336,6 +4487,10 @@ function convertNotationsToNumber(num){
 }
 
 //Buildings Specific
+/**
+ * @param {string} what
+ * @param {boolean} [force]
+ */
 function removeQueueItem(what, force) {
 	if (game.options.menu.pauseGame.enabled && !force) return;
 	var queue = document.getElementById("queueItemsHere");
@@ -4385,6 +4540,10 @@ function removeQueueItem(what, force) {
 	checkEndOfQueue();
 }
 
+/**
+ * @param {any} id
+ * @param {HTMLElement} queue
+ */
 function getQueueElemIndex(id, queue){
 	var childs = queue.getElementsByTagName('*');
 	for (var i = 0, len = childs.length; i < len; i++){
@@ -4400,6 +4559,9 @@ function checkEndOfQueue(){
 	}
 }
 
+/**
+ * @param {string} what
+ */
 function addQueueItem(what) {
 	var elem = document.getElementById("queueItemsHere");
 	document.getElementById("noQueue").style.display = "none";
@@ -4496,6 +4658,11 @@ function updateLabels() { //Tried just updating as something changes, but seems 
 	}
 }
 
+/**
+ * @param {number} jobObj
+ * @param {boolean} trimps
+ * @param {string} [jobName]
+ */
 function updatePs(jobObj, trimps, jobName){ //trimps is true/false, send PS as first if trimps is true, like (32.4, true)
 		if (usingRealTimeOffline) return;
 		if (jobObj.increase == "custom" || (typeof jobObj.increase === 'undefined' && !trimps)) return;
@@ -4584,6 +4751,9 @@ function updateSideTrimps(){
 	document.getElementById("jobsTitleUnemployed").innerHTML = prettify(free) + " workspace" + s;
 }
 
+/**
+ * @param {string} what
+ */
 function unlockBuilding(what) {
 	game.global.lastUnlock = new Date().getTime();
 	var building = game.buildings[what];
@@ -4608,6 +4778,10 @@ function drawAllBuildings(){
 	updateGeneratorInfo();
 }
 
+/**
+ * @param {string} what
+ * @param {HTMLElement} where
+ */
 function drawBuilding(what, where){
 	if (usingScreenReader){
 		where.innerHTML += '<button class="thing noSelect pointer buildingThing" onclick="tooltip(\'' + what + '\',\'buildings\',\'screenRead\')">' + what + ' Info</button><button title="" onmouseout="tooltip(\'hide\')" class="thingColorCanNotAfford thing noselect pointer buildingThing" id="' + what + '" onclick="buyBuilding(\'' + what + '\')"><span class="thingName"><span id="' + what + 'Alert" class="alert badge"></span>' + what + '</span>, <span class="thingOwned" id="' + what + 'Owned">' + game.buildings[what].owned + '</span><span class="cantAffordSR">, Not Affordable</span><span class="affordSR">, Can Buy</span></button>';
@@ -4616,6 +4790,9 @@ function drawBuilding(what, where){
 	where.innerHTML += '<div onmouseover="tooltip(\'' + what + '\',\'buildings\',event)" onmouseout="tooltip(\'hide\')" class="thingColorCanNotAfford thing noselect pointer buildingThing" id="' + what + '" onclick="buyBuilding(\'' + what + '\')"><span class="thingName"><span id="' + what + 'Alert" class="alert badge"></span>' + what + '</span><br/><span class="thingOwned" id="' + what + 'Owned">' + game.buildings[what].owned + '</span></div>';
 }
 
+/**
+ * @param {string} what
+ */
 function unlockJob(what) {
 	game.global.lastUnlock = new Date().getTime();
 	var job = game.jobs[what];
@@ -4624,6 +4801,9 @@ function unlockJob(what) {
 	drawAllJobs();
 }
 
+/**
+ * @param {boolean} [force]
+ */
 function drawAllJobs(force){
 	if (usingRealTimeOffline && !force) return;
 	var elem = document.getElementById("jobsHere");
@@ -4642,6 +4822,10 @@ function drawAllJobs(force){
 	}
 }
 
+/**
+ * @param {string} what
+ * @param {HTMLElement} where
+ */
 function drawJob(what, where){
 	if (usingScreenReader){
 		where.innerHTML += '<button class="thing noSelect pointer jobThing" onclick="tooltip(\'' + what + '\',\'jobs\',\'screenRead\')">' + what + ' Info</button><button onmouseover="tooltip(\'' + what + '\',\'jobs\',event)" onmouseout="tooltip(\'hide\')" class="thingColorCanNotAfford thing noselect pointer jobThing" id="' + what + '" onclick="buyJob(\'' + what + '\')"><span class="thingName"><span id="' + what + 'Alert" class="alert badge"></span>' + what + '</span>, <span class="thingOwned" id="' + what + 'Owned">0</span><span class="cantAffordSR">, Not Affordable</span><span class="affordSR">, Can Buy</span></button>';
@@ -4650,6 +4834,9 @@ function drawJob(what, where){
 	where.innerHTML += '<div onmouseover="tooltip(\'' + what + '\',\'jobs\',event)" onmouseout="tooltip(\'hide\')" class="thingColorCanNotAfford thing noselect pointer jobThing" id="' + what + '" onclick="buyJob(\'' + what + '\')"><span class="thingName"><span id="' + what + 'Alert" class="alert badge"></span>' + what + '</span><br/><span class="thingOwned" id="' + what + 'Owned">0</span></div>';
 }
 
+/**
+ * @param {HTMLElement} where
+ */
 function drawGeneticistassist(where){
 	where.innerHTML += '<div id="GeneticistassistContainer" class="thing"><div onmouseover="tooltip(\'Geneticist\',\'jobs\',event)" onmouseout="tooltip(\'hide\')" class="thingColorCanNotAfford thing noselect pointer jobThing" id="Geneticist" onclick="buyJob(\'Geneticist\')"><span class="thingName"><span id="GeneticistAlert" class="alert badge"></span>Geneticist</span><br/><span class="thingOwned" id="GeneticistOwned">0</span></div><div onmouseover="tooltip(\'Geneticistassist\',null,event)" onmouseout="tooltip(\'hide\')" class="thing thingColorNone noselect stateHappy pointer jobThing" id="Geneticistassist" onclick="toggleGeneticistassist()">Geneticistassist<span id="GAIndicator"></span><br/><span id="GeneticistassistSetting">&nbsp;</span></div></div>';
 	toggleGeneticistassist(true);
@@ -4663,6 +4850,9 @@ function refreshMaps(){
 	}
 }
 
+/**
+ * @param {{ name: string; location: string | number; level: any; }} item
+ */
 function getUniqueColor(item){
 	if (!game.global.runningChallengeSquared) {
 		if (item.name == "The Prison" && game.global.challengeActive == "Electricity")
@@ -4686,6 +4876,10 @@ function getUniqueColor(item){
 	return " noRecycleDone";
 }
 
+/**
+ * @param {{ location: any; voidBuff: string | number; }} mapObject
+ * @param {boolean} [nameOnly]
+ */
 function getMapIcon(mapObject, nameOnly) {
 	var icon = mapObject.location;
 	icon = game.mapConfig.locations[icon].resourceType;
@@ -4707,6 +4901,9 @@ function getMapIcon(mapObject, nameOnly) {
 	return "icomoon icon-cubes";
 }
 
+/**
+ * @param {string | number} what
+ */
 function unlockMap(what) { //what here is the array index
 	var item = game.global.mapsOwnedArray[what];
 	var btnClass = "mapElementNotSelected thing noselect pointer mapThing";
@@ -4744,10 +4941,17 @@ function unlockMap(what) { //what here is the array index
 	if (item.id == game.global.currentMapId) swapClass("mapElement", "mapElementSelected", document.getElementById(item.id));
 }
 
+/**
+ * @param {string | number} modifier
+ */
 function getMapSpecTag(modifier){
 	return '<span class="mapSpec"> (' + mapSpecialModifierConfig[modifier].abv + ')</span>'
 }
 
+/**
+ * @param {string} what
+ * @param {boolean} [displayOnly]
+ */
 function unlockUpgrade(what, displayOnly) {
 	if (!displayOnly) game.global.lastUnlock = new Date().getTime();
 	if (getAvailableGoldenUpgrades() >= 1) displayGoldenUpgrades(true);
@@ -4782,6 +4986,10 @@ function drawAllUpgrades(){
 
 
 
+/**
+ * @param {string} what
+ * @param {HTMLElement} where
+ */
 function drawUpgrade(what, where){
 	var upgrade = game.upgrades[what];
 	if (upgrade.prestiges && (!upgrade.cost.resources[metal] || !upgrade.cost.resources[wood])){
@@ -4803,6 +5011,9 @@ function drawUpgrade(what, where){
 	if (!upgrade.isRelic && dif >= 1) document.getElementById(what + "Owned").innerHTML = upgrade.done + "(+" + dif + ")";
 }
 
+/**
+ * @param {string} what
+ */
 function checkButtons(what) {
 	var where = game[what];
 	if (what == "jobs") {
@@ -4866,6 +5077,11 @@ function checkButtons(what) {
 	}
 }
 
+/**
+ * @param {string} what
+ * @param {string | number | boolean} canAfford
+ * @param {boolean} [isJob]
+ */
 function updateButtonColor(what, canAfford, isJob) {
 	if (usingRealTimeOffline) return;
 	if (what == "Amalgamator") return;
@@ -4920,6 +5136,10 @@ function getWarpstationColor() {
 
 }
 
+/**
+ * @param {string} what
+ * @param {undefined} [fromCheck]
+ */
 function unlockEquipment(what, fromCheck) {
 	game.global.lastUnlock = new Date().getTime();
 	var equipment = game.equipment[what];
@@ -4940,6 +5160,10 @@ function drawAllEquipment(){
 	}
 }
 
+/**
+ * @param {string} what
+ * @param {HTMLElement} elem
+ */
 function drawEquipment(what, elem){
 	var numeral = "";
 	var equipment = game.equipment[what];
@@ -4954,6 +5178,9 @@ function drawEquipment(what, elem){
 }
 
 //isPrevious returns the previous color, used for swapping with str.replace to know which one was before
+/**
+ * @param {number} percent
+ */
 function getBarColorClass(percent) {
 	if (percent > 50) return "percentColorBlue";
 	else if (percent > 25) return "percentColorYellow";
@@ -4988,6 +5215,9 @@ function toggleSettingsMenu(){
 	if (hasNewSetting) clearNewSettings();
 }
 
+/**
+ * @param {string} name
+ */
 function addNewSetting(name){
 	game.options.menu[name].isNew = true;
 	hasNewSetting = true;
@@ -5025,6 +5255,9 @@ function displayAllSettings() {
 	settingsHere.innerHTML = html;
 }
 
+/**
+ * @param {boolean} toSearch
+ */
 function toggleSettingSection(toSearch){
 	document.getElementById('searchSettingsWindow').style.display = (toSearch) ? "block" : "none";
 	document.getElementById('allSettings').style.display = (toSearch) ? "none" : "block";
@@ -5033,6 +5266,9 @@ function toggleSettingSection(toSearch){
 	else searchSettings(document.getElementById('searchSettings'));
 }
 
+/**
+ * @param {string} what
+ */
 function settingTab(what){
 	var elem = document.getElementById('searchSettings');
 	elem.value = what;
@@ -5050,6 +5286,9 @@ function clearSettingTabs(){
 	}
 }
 
+/**
+ * @param {HTMLElement} elem
+ */
 function searchSettings(elem){
 	var search = elem.value.toLowerCase();
 	var resultsElem = document.getElementById('settingSearchResults');
@@ -5095,6 +5334,11 @@ function searchSettings(elem){
 	resultsElem.innerHTML = text;
 }
 
+/**
+ * @param {string} item
+ * @param {string} [forceClass]
+ * @param {string} [appendId]
+ */
 function getSettingHtml(optionItem, item, forceClass, appendId){
 	if (!appendId) appendId = "";
 	if (!forceClass) forceClass = "";
@@ -5111,6 +5355,14 @@ function saveLogarithmicSetting(){
 }
 
 var lastPause = -1;
+/**
+ * @param {string} setting
+ * @param {null} [elem]
+ * @param {boolean} [fromPortal]
+ * @param {boolean} [updateOnly]
+ * @param {boolean} [backwards]
+ * @param {boolean} [fromHotkey]
+ */
 function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHotkey){
 	if (setting == "GeneticistassistTarget") {
 		tooltip('Geneticistassist Settings', null, 'update');
@@ -5183,7 +5435,10 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		swapClass("settingBtn", "settingBtn" + menuOption.enabled, menuElem[x]);
 		if (setting == "deleteSave") return;
 		if (!updateOnly && elem) cancelTooltip(true);
-		menuElem[x].onmouseover = function(event) {tooltip(menuOption.titles[menuOption.enabled], "customText", event, menuOption.description)};
+		menuElem[x].onmouseover = /**
+		 * @param {any} event
+		 */
+ function(event) {tooltip(menuOption.titles[menuOption.enabled], "customText", event, menuOption.description)};
 	}
 	if (!updateOnly && elem) tooltip(menuOption.titles[menuOption.enabled], "customText", 'update', menuOption.description)
 }
@@ -5208,6 +5463,12 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		}
 	}
 
+	/**
+ * @param {string} id
+ * @param {boolean} forHover
+ * @param {number} displayNumber
+ * @param {boolean} [forTracker]
+ */
 	function displayAchievementPopup(id, forHover, displayNumber, forTracker){
 		if (!forHover && game.options.menu.achievementPopups.enabled == 0) return;
 		var achievement = game.achievements[id];
@@ -5257,6 +5518,12 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 			prog.innerHTML = "";
 	}
 
+	/**
+ * @param {string} id
+ * @param {string | number} [evalProperty]
+ * @param {boolean} [doubleChecking]
+ * @param {boolean} [noDisplay]
+ */
 	function checkAchieve(id, evalProperty, doubleChecking, noDisplay) {
 		if (id == "housing" && checkHousing() >= 100) giveSingleAchieve("Realtor");
 		var achievement = game.achievements[id];
@@ -5288,6 +5555,9 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		if (trimpAchievementsOpen && !doubleChecking) displayAchievements();
 	}
 
+	/**
+ * @param {string | number} index
+ */
 	function giveSingleAchieve(index){
 		var area = (game.global.universe == 2) ? "oneOffs2" : "oneOffs";
 		var achievement = game.achievements[area];
@@ -5459,6 +5729,9 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		setGoldenBonusAchievementText();
 	}
 
+	/**
+ * @param {string} which
+ */
 	function checkFeatEarnable(which){
 		var failables = {
 			Underachiever: function (){
@@ -5611,6 +5884,9 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		else return true;
 	}
 
+	/**
+ * @param {string | number} zoneNumber
+ */
 	function getWorldText(zoneNumber){
 		var universe1 = {
 			w2: "Your Trimps killed a lot of Bad Guys back there. It seems like you're getting the hang of this. However, the world is large, and there are many more Zones to explore. Chop chop.",
@@ -5966,6 +6242,9 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		trimpAchievementHelpOn = !trimpAchievementHelpOn;
 	}
 
+	/**
+ * @param {undefined} [forHover]
+ */
 	function closeAchievementPopup(forHover){
 		var location = (forHover) ? "Hover" : "Popup";
 		document.getElementById("achievement" + location).style.display = "none";
@@ -5982,6 +6261,9 @@ function toggleSetting(setting, elem, fromPortal, updateOnly, backwards, fromHot
 		document.getElementById(id + "Description").innerHTML = "";
 	} */
 
+/**
+ * @param {boolean} [addStack]
+ */
 function updateDecayStacks(addStack){
 	var elem = document.getElementById('decayStacks');
 	if (game.global.challengeActive != "Decay" && game.global.challengeActive != "Melt"){
@@ -6003,6 +6285,11 @@ function updateDecayStacks(addStack){
 	document.getElementById('decayStackCount').innerHTML = challenge.stacks;
 }
 
+/**
+ * @param {string} prefix
+ * @param {string} newClass
+ * @param {Element} elem
+ */
 function swapClass(prefix, newClass, elem) {
 if (elem == null) {
 	console.log("swapClass, No element found. Prefix: " + prefix + ", newClass: " + newClass);
@@ -6024,6 +6311,12 @@ if (elem == null) {
   elem.className = className;
 }
 
+/**
+ * @param {HTMLElement} elem
+ * @param {number} currentSeconds
+ * @param {number} totalSeconds
+ * @param {number} frameTime
+ */
 function goRadial(elem, currentSeconds, totalSeconds, frameTime){
 		if (!elem) return;
         if (currentSeconds <= 0) currentSeconds = 0;
@@ -6039,6 +6332,9 @@ function goRadial(elem, currentSeconds, totalSeconds, frameTime){
         , 0);
 }
 
+/**
+ * @param {any} obj
+ */
 function isObjectEmpty(obj){
 	for (var item in obj){
 		return false;
@@ -6046,6 +6342,10 @@ function isObjectEmpty(obj){
 	return true;
 }
 
+/**
+ * @param {number} currentSeconds
+ * @param {number} totalSeconds
+ */
 function timeToDegrees(currentSeconds, totalSeconds){
 	var degrees = (360 * (currentSeconds / totalSeconds * 100) / 100);
 	return degrees % 360;

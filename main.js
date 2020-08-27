@@ -17784,7 +17784,7 @@ var Fluffy = {
 		}
 	},
 	tooltip: /**
-	 * @param {any} big
+	 * @param {any} [big]
 	 */
  function (big){
 		var savedLevel = Fluffy.getLevel(true);
