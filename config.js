@@ -394,7 +394,12 @@ var toReturn = {
 			block: 0,
 			trainers: 0
 		},
-		getEnemyAttack: function (level, name, ignoreImpStat) {
+		getEnemyAttack: /**
+		 * @param {number} level
+		 * @param {string | number} name
+		 * @param {any} ignoreImpStat
+		 */
+ function (level, name, ignoreImpStat) {
 			var world = getCurrentMapObject();
 			var amt = 0;
 			world = (game.global.mapsActive) ? world.level : game.global.world;
@@ -431,7 +436,12 @@ var toReturn = {
 			}
 			return Math.floor(amt);
 		},
-		getEnemyHealth: function (level, name, ignoreImpStat) {
+		getEnemyHealth: /**
+		 * @param {number} level
+		 * @param {string | number} name
+		 * @param {any} ignoreImpStat
+		 */
+ function (level, name, ignoreImpStat) {
 			var world = getCurrentMapObject();
 			world = (game.global.mapsActive) ? world.level : game.global.world;
 			var amt = 0;
@@ -471,11 +481,17 @@ var toReturn = {
 				return "Increases the percentage of damage that sticks to enemies as poison during the Empowerment of Poison by <b>" + this.formatModifier(this.baseModifier) + "%</b>. You currently poison for <b>" + this.formatModifier(this.getModifier()) + "%</b>, and next level will cause you to poison for <b>" + this.formatModifier(this.getModifier(1)) + "%</b>.";
 			},
 			baseModifier: 0.01,
-			getModifier: function (change) {
+			getModifier: /**
+			 * @param {number} [change]
+			 */
+ function (change) {
 				if (!change) change = 0;
 				return ((this.getLevel() + change) * this.baseModifier);
 			},
-			formatModifier: function (number){
+			formatModifier: /**
+			 * @param {number} number
+			 */
+ function (number){
 				return prettify(number * 100);
 			},
 			getDamage: function(){
@@ -513,7 +529,11 @@ var toReturn = {
 				return "Increases the amount of extra Helium you find in the World by <b>" + this.formatModifier(this.baseModifier) + "%</b> and non-Helium basic resources from all sources by <b>" + this.formatModifier(this.baseModifier * 10) + "%</b> per stack when the Empowerment of Wind is active. Your current bonus is <b>" + this.formatModifier(this.getModifier(0, true)) + "%</b> Helium, and next level will bring your bonus to <b>" + this.formatModifier(this.getModifier(1, true)) + "%</b> extra helium. Non-Helium resource gain is always " + ((Fluffy.isRewardActive('naturesWrath')) ? "double" : "10x") + " that of Helium, and the Helium bonus does not apply in maps.";
 			},
 			baseModifier: 0.001,
-			getModifier: function (change, forHelium) {
+			getModifier: /**
+			 * @param {number} [change]
+			 * @param {any} [forHelium]
+			 */
+ function (change, forHelium) {
 				if (!change) change = 0;
 				var mod = ((this.getLevel() + change) * this.baseModifier);
 				if (!forHelium) mod *= 10;
@@ -522,10 +542,16 @@ var toReturn = {
 				}
 				return mod;
 			},
-			formatModifier: function (number) {
+			formatModifier: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				return prettify(number * 100);
 			},
-			getCombatModifier: function (forHelium) {
+			getCombatModifier: /**
+			 * @param {any} forHelium
+			 */
+ function (forHelium) {
 				var mod = this.currentDebuffPower * this.getModifier(0, forHelium);
 				return mod;
 			},
@@ -570,7 +596,10 @@ var toReturn = {
 				else return "<div style='margin-top: 10px'><b>Your Ice level is" + ((level > 100) ? " over" : "") + " 100, and you are gaining an additional 2 cells of Overkill during Ice Zones!</b></div>";
 			},
 			baseModifier: 0.01,
-			getModifier: function (change) {
+			getModifier: /**
+			 * @param {number} [change]
+			 */
+ function (change) {
 				if (!change) change = 0;
 				return Math.pow(1 - this.baseModifier, (this.getLevel() + change));
 			},
@@ -582,7 +611,10 @@ var toReturn = {
 				if (Fluffy.isRewardActive('naturesWrath')) mod *= 2;
 				return mod;
 			},
-			formatModifier: function (number){
+			formatModifier: /**
+			 * @param {number} number
+			 */
+ function (number){
 				return prettify((1 - number) * 100);
 			},
 			getLevel: function(){
@@ -865,7 +897,10 @@ var toReturn = {
 					}
 					document.getElementById("innerWrapper").style.backgroundColor = "initial";
 				},
-				applyStyle: function (titleIndex){
+				applyStyle: /**
+				 * @param {number} titleIndex
+				 */
+ function (titleIndex){
 					var styleName = this.styleNames[titleIndex - 2];
 					var link = document.createElement('link');
 					link.type = 'text/css';
@@ -1051,7 +1086,10 @@ var toReturn = {
 					}
 					tooltip('Set Map At Zone', null, 'update');
 				},
-				storeSetting: function(setting){
+				storeSetting: /**
+				 * @param {{ world: number; }[]} setting
+				 */
+ function(setting){
 					if (game.global.universe == 2){
 						if (this.U2Mode == 'a') {
 							this.setZoneU2 = setting;
@@ -1090,7 +1128,10 @@ var toReturn = {
 					}
 					btnElem.style.display = 'none';
 				},
-				removeRow: function(index){
+				removeRow: /**
+				 * @param {string} index
+				 */
+ function(index){
 					var elem = document.getElementById('mazRow' + index);
 					if (!elem) return;
 					document.getElementById('mazWorld' + index).value = -1;
@@ -1515,7 +1556,10 @@ var toReturn = {
 		bionic: {
 			description: "<p>Automatically pick up each level of Bionic Wonderland (BW) as you pass a BW Zone. Will not work if you have already missed any BWs this run, or if you reach a Zone higher than any BW you have ever cleared before.</p><p>In addition, give all current and future copies of Bionic Wonderland the 'Fast Attacks' special modifier.</p>",
 			name: "Bionic Magnet I",
-			onPurchase: function (clear) {
+			onPurchase: /**
+			 * @param {any} clear
+			 */
+ function (clear) {
 				addMapModifier('Bionic', 'fa');
 			},
 			onRespec: function () {
@@ -1762,7 +1806,10 @@ var toReturn = {
 		voidPower3: {
 			description: "Your Trimps gain an additional 30% attack and health inside Void Maps, and all current and future Void Maps gain the 'Fast Attacks' special modifier.",
 			name: "Void Power III",
-			onPurchase: function (clear) {
+			onPurchase: /**
+			 * @param {any} clear
+			 */
+ function (clear) {
 				if(game.global.world > 1)
 				addMapModifier('Void', 'fa');
 			},
@@ -2235,7 +2282,10 @@ var toReturn = {
 			modifier: 0.98,
 			heliumSpent: 0,
 			currentSend: 1,
-			onChange: function (overrideLevel) {
+			onChange: /**
+			 * @param {any} overrideLevel
+			 */
+ function (overrideLevel) {
 				var newValue = 1;
 				var level = (overrideLevel) ? this.level + this.levelTemp : this.level;
 				var currentMod = 0.25 * Math.pow(this.modifier, level);
@@ -2293,7 +2343,10 @@ var toReturn = {
 			heliumSpent: 0,
 			max: 7,
 			tooltip: "Your experiences in the Dimension of Strong Things have taught you the value of taking your time. Every level of Meditation will increase your Trimps' gather speed by 1% for every 10 minutes spent on the same Zone, up to 1 hour, even when offline. This bonus is reset after clearing the current Zone. Maximum of 7 levels.",
-			getBonusPercent: function (justStacks) {
+			getBonusPercent: /**
+			 * @param {any} justStacks
+			 */
+ function (justStacks) {
 				var timeOnZone = getGameTime() - game.global.zoneStarted;
 				timeOnZone = Math.floor(timeOnZone / 600000);
 				if (timeOnZone > 6) timeOnZone = 6;
@@ -2708,12 +2761,18 @@ var toReturn = {
 				this.balanceStacks = 0;
 				updateBalanceStacks();
 			},
-			getHealthMult: function (formatText) {
+			getHealthMult: /**
+			 * @param {any} formatText
+			 */
+ function (formatText) {
 				var num = Math.pow(0.99, this.balanceStacks);
 				if (formatText) return Math.floor((1 - num) * 100) + "%";
 				return num;
 			},
-			getGatherMult: function (formatText) {
+			getGatherMult: /**
+			 * @param {any} formatText
+			 */
+ function (formatText) {
 				if (formatText) return this.balanceStacks + "%";
 				return ((this.balanceStacks * 0.01) + 1);
 			},
@@ -2741,7 +2800,10 @@ var toReturn = {
 			mustRestart: true,
 			completed: false,
 			heldBooks: 0,
-			filter: function (fromCheck) {
+			filter: /**
+			 * @param {any} fromCheck
+			 */
+ function (fromCheck) {
 				if (portalUniverse == 2) return false;
 				if (game.global.sLevel == 0) return (game.global.highestLevelCleared >= 39);
 				else if (game.global.sLevel == 1) return (game.global.highestLevelCleared >= 49);
@@ -2940,7 +3002,10 @@ var toReturn = {
 			filter: function () {
 				return (getHighestLevelCleared(true) >= 99);
 			},
-			start: function (reset) {
+			start: /**
+			 * @param {any} [reset]
+			 */
+ function (reset) {
 				var mod = (reset) ? 1.2 : 1.1;
 				for (var item in game.equipment){
 					var cost = (item == "Shield") ? "wood" : "metal";
@@ -2976,7 +3041,10 @@ var toReturn = {
 			maxStacks: 150,
 			fireAbandon: true,
 			lowestStacks: 150,
-			getHealthMult: function(forDisplay){
+			getHealthMult: /**
+			 * @param {any} forDisplay
+			 */
+ function(forDisplay){
 				var mult = (this.stacks / 10);
 				if (forDisplay) return (prettify(mult * 100) + "%");
 				return 1 + mult;
@@ -3366,12 +3434,18 @@ var toReturn = {
 				this.balanceStacks = 0;
 				updateBalanceStacks();
 			},
-			getAttackMult: function (formatText) {
+			getAttackMult: /**
+			 * @param {any} formatText
+			 */
+ function (formatText) {
 				var num = Math.pow(0.99, this.balanceStacks);
 				if (formatText) return Math.floor((1 - num) * 100) + "%";
 				return num;
 			},
-			getGatherMult: function (formatText) {
+			getGatherMult: /**
+			 * @param {any} formatText
+			 */
+ function (formatText) {
 				if (formatText) return this.balanceStacks + "%";
 				return ((this.balanceStacks * 0.01) + 1);
 			},
@@ -3440,7 +3514,10 @@ var toReturn = {
 				manageStacks('Duel Points', this.trimpStacks, true, 'trimpDuelPoints', 'icomoon icon-abacus', this.stackTooltip(true), false);
 				manageStacks('Duel Points', this.enemyStacks, false, 'enemyDuelPoints', 'icomoon icon-abacus', this.stackTooltip(false), false);
 			},
-			stackTooltip: function(isTrimp){
+			stackTooltip: /**
+			 * @param {any} isTrimp
+			 */
+ function(isTrimp){
 				var name = (isTrimp) ? "Your Trimps" : "The Bad Guys";
 				var stacks = (isTrimp) ? this.trimpStacks : this.enemyStacks;
 				var text = name + " have " + stacks + " Duel Points.";
@@ -3573,7 +3650,10 @@ var toReturn = {
 				this.exhaustedStacks++;
 				this.drawStacks();
 			},
-			stackTooltip: function(which){
+			stackTooltip: /**
+			 * @param {string} which
+			 */
+ function(which){
 				if (which == "Motivated"){
 					return "Your Trimps are Motivated, increasing all Loot gained (including Radon) by " + prettify((game.challenges.Quagmire.getLootMult() - 1) * 100) + "%.";
 				}
@@ -3694,7 +3774,10 @@ var toReturn = {
 			onLoad: function() {
 				this.drawStacks();
 			},
-			stackTooltip: function(isTrimp){
+			stackTooltip: /**
+			 * @param {any} isTrimp
+			 */
+ function(isTrimp){
 				var name = (isTrimp) ? "Your Trimps" : "The Bad Guys";
 				var buffName = (isTrimp) ? "Hardened" : "Horror";
 				var stat = (isTrimp) ? "Health" : "Attack";
@@ -3872,7 +3955,10 @@ var toReturn = {
 				}
 				message("You have a new quest! <b>" + this.getQuestDescription() + "</b>. Good luck!", "Notices", "*exclamation", "questMessage questNew")
 			},
-			getQuestDescription: function(addProgress){
+			getQuestDescription: /**
+			 * @param {any} [addProgress]
+			 */
+ function(addProgress){
 				if (this.questId == -1) "No active quest";
 				var desc = this.questDescriptions[this.questId];
 				if (this.questId <= 1) desc = desc.replace("{resource}", this.resource);
@@ -3985,7 +4071,10 @@ var toReturn = {
 				game.global.archThresh = thresh;
 				cancelTooltip();
 			},
-			checkAutomator: function(makePurchase){
+			checkAutomator: /**
+			 * @param {any} makePurchase
+			 */
+ function(makePurchase){
 				if (this.pauseAuto || game.global.archString == "") return "off";
 				var costMax = game.resources.science.owned;
 				costMax *= (game.global.archThresh / 100);
@@ -4007,7 +4096,10 @@ var toReturn = {
 				}
 				return "satisfied";
 			},
-			getTooltip: function(what){
+			getTooltip: /**
+			 * @param {string | any[]} what
+			 */
+ function(what){
 				var cap = what[0].toUpperCase() + what.slice(1);
 				var extra = "";
 				if (cap == "Breed") {
@@ -4029,7 +4121,11 @@ var toReturn = {
 				text += "<br/><br/>You have discovered " + (this.getPoints(what) + game.global.world - 1) + " of these Relics and " + this.purchases + " total Relics. Each Relic has a max of 50 positive levels at a time. Cost increases based on total purchased Relics.";
 				return text;
 			},
-			buyRelic: function(what, noTip){
+			buyRelic: /**
+			 * @param {string | number} what
+			 * @param {any} [noTip]
+			 */
+ function(what, noTip){
 				var increase = game.upgrades[what].relic;
 				this.points[increase]++;
 				if (this.points[increase] >= 1) this.overZero = true;
@@ -4038,16 +4134,26 @@ var toReturn = {
 				if (!noTip)
 				tooltip(what, "upgrades", "update");
 			},
-			updateButton: function(what){
+			updateButton: /**
+			 * @param {string} what
+			 */
+ function(what){
 				var ownedElem = document.getElementById(what + "RelicOwned");
 				if (ownedElem != null)
 					ownedElem.innerHTML = this.points[what];
 			},
-			getBaseStatMult: function(what){
+			getBaseStatMult: /**
+			 * @param {string} what
+			 */
+ function(what){
 				if (what == "breed") return 1.1;
 				return 1.05;
 			},
-			getStatMult: function(what, forcePoints){
+			getStatMult: /**
+			 * @param {string} what
+			 * @param {any} [forcePoints]
+			 */
+ function(what, forcePoints){
 				var points = (typeof forcePoints === 'undefined') ? this.points[what] : forcePoints;
 				if (what == "enemyAttack") points *= -1;
 				var amt = Math.pow(this.getBaseStatMult(what), points);
@@ -4057,7 +4163,10 @@ var toReturn = {
 			getNextCost: function(){
 				return (Math.floor(Math.pow(1.1, this.purchases) * 1e6));
 			},
-			getPoints: function(what){
+			getPoints: /**
+			 * @param {string | number} what
+			 */
+ function(what){
 				return this.points[what];
 			},
 			start: function(){
@@ -4113,7 +4222,10 @@ var toReturn = {
 				this.stacks = 1000;
 				this.drawStacks();
 			},
-			clearedMap: function(level){
+			clearedMap: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var dif = level - game.global.world + 1;
 				if (dif > 0){
 					this.stacks -= dif;
@@ -4237,7 +4349,10 @@ var toReturn = {
 				var resOwned = (game.global.universe == 2) ? game.resources.radon.owned : game.resources.helium.owned;
 				return (resOwned > 0);
 			},
-			value: function (useTemp) {
+			value: /**
+			 * @param {any} [useTemp]
+			 */
+ function (useTemp) {
 				var timeThisPortal = new Date().getTime() - game.global.portalTime;
 				if (timeThisPortal < 1) return 0;
 				timeThisPortal /= 3600000;
@@ -4608,7 +4723,10 @@ var toReturn = {
 			baseCost: 8,
 			upgrades: 0,
 			modifier: 1,
-			tickAtFuel: function(fuel){
+			tickAtFuel: /**
+			 * @param {number} fuel
+			 */
+ function(fuel){
 				return Math.floor(Math.sqrt(fuel) * ((this.base * 0.1 * this.upgrades) + this.base));
 			},
 			cost: function(){
@@ -4721,7 +4839,10 @@ var toReturn = {
 		zones: {
 			finished: 0,
 			title: "Zone Progress",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Complete Zone " + this.breakpoints[number];
 			},
 			progress: function () {
@@ -4738,7 +4859,10 @@ var toReturn = {
 		zones2: {
 			finished: 0,
 			title: "Zone Progress: U2",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Complete Zone " + this.breakpoints[number] + " in Universe 2";
 			},
 			display: function () {
@@ -4758,7 +4882,10 @@ var toReturn = {
 		damage: {
 			finished: 0,
 			title: "Trimp Damage",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Reach " + prettify(this.breakpoints[number]) + " displayed damage";
 			},
 			progress: function () {
@@ -4776,7 +4903,10 @@ var toReturn = {
 			finished: 0,
 			highest: 0,
 			title: "Trimps Owned",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Have  " + prettify(this.breakpoints[number]) + " total Trimps";
 			},
 			progress: function () {
@@ -4792,7 +4922,10 @@ var toReturn = {
 		housing: {
 			finished: 0,
 			title: "Real Estate",
-			description: function (number) {
+			description: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				if (number == 9) return "Use the Dimensional Generator";
 				return "Build your first  " + this.breakpoints[number];
 			},
@@ -4805,7 +4938,10 @@ var toReturn = {
 		portals: {
 			finished: 0,
 			title: "Total Portals",
-			description: function (number) {
+			description: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				var s = (number > 0) ? "s" : "";
 				return "Use the Portal " + prettify(this.breakpoints[number]) + " time" + s;
 			},
@@ -4826,7 +4962,10 @@ var toReturn = {
 		totalZones: {
 			finished: 0,
 			title: "Total Zone Clears",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Clear  " + prettify(this.breakpoints[number]) + " total Zones";
 			},
 			evaluate: function () {
@@ -4845,7 +4984,10 @@ var toReturn = {
 		totalMaps: {
 			finished: 0,
 			title: "Total Map Clears",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Clear  " + prettify(this.breakpoints[number]) + " total Maps";
 			},
 			display: function () {
@@ -4867,7 +5009,10 @@ var toReturn = {
 		totalHelium: {
 			finished: 0,
 			title: "Helium Collection",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Gather " + prettify(this.breakpoints[number]) + " total Helium";
 			},
 			progress: function (){
@@ -4889,7 +5034,10 @@ var toReturn = {
 		totalRadon: {
 			finished: 0,
 			title: "Radon Collection",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Gather " + prettify(this.breakpoints[number]) + " total Radon";
 			},
 			progress: function (){
@@ -4911,7 +5059,10 @@ var toReturn = {
 		heliumHour: {
 			finished: 0,
 			title: "Helium Per Hour",
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return "Reach " + prettify(this.breakpoints[number]) + " Helium Per Hour";
 			},
 			progress: function () {
@@ -4933,7 +5084,10 @@ var toReturn = {
 		totalHeirlooms: {
 			finished: 0,
 			title: "Heirloom Collection",
-			description: function (number) {
+			description: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				var number = this.breakpoints[number];
 				var s = (number > 1) ? "s" : "";
 				return "Collect " + prettify(number) + " Heirloom" + s;
@@ -4957,7 +5111,10 @@ var toReturn = {
 		totalGems: {
 			finished: 0,
 			title: "Gem Collection",
-			description: function (number) {
+			description: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				var number = this.breakpoints[number];
 				var s = (number > 1) ? "s" : "";
 				return "Collect  " + prettify(number) + " Gem" + s;
@@ -4978,7 +5135,10 @@ var toReturn = {
 		dailyHelium: {
 			finished: 0,
 			title: "Daily Bonus",
-			description: function (number) {
+			description: /**
+			 * @param {number} number
+			 */
+ function (number) {
 				var number = this.breakpoints[number];
 				return "Earn " + prettify(number) + " Helium from the Daily Challenge";
 			},
@@ -5001,7 +5161,10 @@ var toReturn = {
 		humaneRun: {
 			finished: 0,
 			title: "Humane Run",
-			description: function (number){
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number){
 				var number = this.breakpoints[number];
 				return "<span style='font-size: .8em'>Reach Z" + number + " after losing no more than one fight per Zone.</span>";
 			},
@@ -5027,7 +5190,10 @@ var toReturn = {
 		mapless: {
 			finished: 0,
 			title: "Mapless Drifter",
-			description: function (number){
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number){
 				var number = this.breakpoints[number];
 				return "<span style='font-size: .8em'>Reach U2 Z" + number + " without ever entering a Map.</span>";
 			},
@@ -5055,18 +5221,27 @@ var toReturn = {
 		shielded: {
 			finished: 0,
 			title: "Shielded",
-			description: function (number){
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number){
 				var number1 = this.breakpoints[number];
 				var number2 = this.breakpoints2[number];
 				return "<span style='font-size: .8em'>Reach U2 Z" + number1 + " without your Shield falling below " + number2 + "%.</span>";
 			},
-			evaluate: function (number) {
+			evaluate: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				if (game.global.universe == 1) return 0;
 				var nextBreakpoint = (number) ? this.breakpoints2[number] : this.breakpoints2[this.finished];
 				if (game.global.lowestShield < nextBreakpoint) return 0;
 				return game.global.world;
 			},
-			progress: function (index) {
+			progress: /**
+			 * @param {number} index
+			 */
+ function (index) {
 				if (index < this.finished) return "Already earned!";
 				if (game.global.universe == 1) return "You must be in Universe 2!";
 				var breakpoint2 = this.breakpoints2[index];
@@ -5086,7 +5261,10 @@ var toReturn = {
 		blockTimed: {
 			finished: 0,
 			title: "Speed: The Block",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "Clear The Block in less than " + number + " from start of run";
 			},
@@ -5113,7 +5291,10 @@ var toReturn = {
 		wallTimed: {
 			finished: 0,
 			title: "Speed: The Wall",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "Clear The Wall in less than " + number + " from start of run";
 			},
@@ -5140,7 +5321,10 @@ var toReturn = {
 		angerTimed: {
 			finished: 0,
 			title: "Speed: Anger",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "Clear DoA in less than " + number + " from start of run";
 			},
@@ -5167,7 +5351,10 @@ var toReturn = {
 		doomTimed: {
 			finished: 0,
 			title: "Speed: Doom",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "Clear ToD in less than " + number + " from start of run";
 			},
@@ -5194,7 +5381,10 @@ var toReturn = {
 		prisonTimed: {
 			finished: 0,
 			title: "Speed: The Prison",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "Clear Prison in less than " + number + " from start of run";
 			},
@@ -5221,7 +5411,10 @@ var toReturn = {
 		bionicTimed: {
 			finished: 0,
 			title: "Speed: Bionic",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Bionic Wonderland in less than " + number + " from start of run</span>";
 			},
@@ -5248,7 +5441,10 @@ var toReturn = {
 		starTimed: {
 			finished: 0,
 			title: "Speed: Star",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Imploding Star in less than " + number + " from start of run</span>";
 			},
@@ -5275,7 +5471,10 @@ var toReturn = {
 		spireTimed: {
 			finished: 0,
 			title: "Speed: Spire",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear the Spire in less than " + number + " from start of run</span>";
 			},
@@ -5302,7 +5501,10 @@ var toReturn = {
 		spire2Timed: {
 			finished: 0,
 			title: "Speed: Spire II",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Spire II in less than " + number + " from start of run</span>";
 			},
@@ -5329,7 +5531,10 @@ var toReturn = {
 		spire3Timed: {
 			finished: 0,
 			title: "Speed: Spire III",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Spire III in less than " + number + " from start of run</span>";
 			},
@@ -5356,7 +5561,10 @@ var toReturn = {
 		spire4Timed: {
 			finished: 0,
 			title: "Speed: Spire IV",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Spire IV in less than " + number + " from start of run</span>";
 			},
@@ -5383,7 +5591,10 @@ var toReturn = {
 		spire5Timed: {
 			finished: 0,
 			title: "Speed: Spire V",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Spire V in less than " + number + " from start of run</span>";
 			},
@@ -5410,7 +5621,10 @@ var toReturn = {
 		bigWallTimed: {
 			finished: 0,
 			title: "U2 Speed: Big Wall",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Big Wall in less than " + number + " from start of run</span>";
 			},
@@ -5437,7 +5651,10 @@ var toReturn = {
 		palaceTimed: {
 			finished: 0,
 			title: "U2 Speed: Palace",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Prismatic Palace in less than " + number + " from start of run</span>";
 			},
@@ -5464,7 +5681,10 @@ var toReturn = {
 		meltingTimed: {
 			finished: 0,
 			title: "U2 Speed: Melting",
-			description: function (number) {
+			description: /**
+			 * @param {string} number
+			 */
+ function (number) {
 				number = formatMinutesForDescriptions(this.breakpoints[number]);
 				return "<span style='font-size: .8em'>Clear Melting Point in less than " + number + " from start of run</span>";
 			},
@@ -5496,7 +5716,10 @@ var toReturn = {
 				return ["Complete the Dimension of Anger before buying Bounty", "Reach Z30 with no respec and 60 or less He spent", "Have over " + prettify(1e6) + " traps at once", "Die 50 times to a single Voidsnimp", "Beat Balance, never having more than 100 stacks", "Reach Zone 10 with 5 or fewer dead Trimps", "Reach exactly 1337 He/Hr", "Attack 20 times without dying in Electricity", "Create a perfect Map", "Use up all 7 Daily Challenges", "Equip a magnificent or better Staff and Shield", "Reach Z60 with 1000 or fewer dead Trimps", "Reach Z120 without using manual research", "Reach Z75 without buying any housing", "Find an uncommon heirloom at Z146 or higher", "Spend over " + prettify(250e3) + " total He on Wormholes", "Reach Z60 with rank III or lower equipment", "Kill an Improbability in one hit", "Beat a Lv 60+ Destructive Void Map with no deaths", "Beat Crushed without being crit past Z5", "Kill an enemy with 100 stacks of Nom", "Break the Planet with 5 or fewer lost battles", "Reach Z60 without hiring a single Trimp", "Complete a Zone above 99 without falling below 150 stacks on Life", "Spend at least 10 minutes breeding an army with Geneticists", "Beat Toxicity, never having more than 400 stacks", "Own 100 of all housing buildings", "Overkill every possible world cell before Z60", "Complete Watch without entering maps or buying Nurseries", "Complete Lead with 100 or fewer lost battles", "Build your 10th Spire Floor", "Kill " + prettify(1e6) + " enemies in your Spire", "Equip a Magmatic Staff and Shield", "Bring a world enemy's attack below 1", "Complete Lead with 1 or fewer Gigastations", "Complete Corrupted without Geneticists", "Complete a Void Map at Z215 on Domination", "Complete The Spire with 0 deaths", "Overkill an Omnipotrimp", "Defeat a Healthy enemy with 200 stacks of wind", "Build up a Poison debuff that's 1000x higher than your attack", "Earn a Challenge<sup>2</sup> bonus of 2000%", "Complete a Bionic Wonderland map 45 levels higher than your Zone number", "Beat the Spire with no respec and " + prettify(100e6) + " or less He Spent", "Defeat an enemy on Obliterated", "Find an Amalgamator on Z1", "Get 10 Red Crits in a row", "Beat Z75 on the Scientist V challenge", "Gain at least 01189998819991197253 He from one Bone Portal", "Kill an Enemy on Eradicated", "Complete Spire V with no deaths", "Build your 20th Spire Floor", "Complete a Bionic Wonderland map 200 levels higher than your Zone number", "Complete Spire II on the Coordinate challenge", "Beat Spire II with no respec and " + prettify(1e9) + " or less He spent", "Beat Imploding Star on Obliterated", "Close 750 Nurseries at the same time", "Earn Dark Essence with no respec and 0 He spent", "Reach Magma on Obliterated", "Break the Planet on Eradicated"];
 			},
 			tiers: [2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9],
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return this.descriptions[number];
 			},
 			filters: [19, 29, 29, -1, 39, 59, -1, 79, -1, 99, 124, 59, 119, 74, -1, -1, 59, 59, 59, 124, 144, 59, 59, 109, -1, 164, 59, -1, 179, 179, 199, 199, 229, 245, 179, 189, 214, 199, 229, 299, 235, 65, 169, 199, 424, 349, -1, 129, 399, 549, 599, 199, 324, 299, 299, 424, 229, 179, 424, 549],
@@ -5518,7 +5741,10 @@ var toReturn = {
 				return ["Reach exactly 1337 Rn/Hr", "One-shot a Dimension of Rage enemy on Unlucky while Unlucky", "Complete Downsize with an equal amount of Huts, Houses, Mansions, Hotels and Resorts", "Complete Transmute without hiring a single Trimp", "Complete Unbalance with 500 stacks of Unbalance", "Complete Bublé without using Prismal or respeccing Perks", "Complete Duel without ever falling below 20 points", "Complete Melt without ever having more than 150 stacks", "Complete Trappapalooza without Trapping on or above Z50", "Complete Wither with " + prettify(10000) + " stacks of Hardened", "Complete Revenge with exactly 19 stacks", "Complete 80/80 quests on Quest", "Complete Archaeology without ever having more than 0 of one Relic"];
 			},
 			tiers: [10,10,10,11,11,11,11,11,12,12,12,12,12],
-			description: function (number) {
+			description: /**
+			 * @param {string | number} number
+			 */
+ function (number) {
 				return this.descriptions[number];
 			},
 			filters: [-1,14,19,24,34,39,44,49,59,69,79,84,94],
@@ -5535,7 +5761,10 @@ var toReturn = {
 		//NOTE: currentBonus is the only thing that will persist!
 		values: [10, 20, 30, 50, 150, 300, 800, 2000, 5000, 15000],
 		recycleOverride: [-1,-1,-1,-1,-1,-1,-1,-1,-1,25e4],
-		coreValues: function(tier){
+		coreValues: /**
+		 * @param {number} tier
+		 */
+ function(tier){
 			return Math.floor(Math.pow(10, tier) * 20) * 2;
 		},
 		slots: [1,2,3,3,3,4,4,5,5,6],
@@ -5561,7 +5790,10 @@ var toReturn = {
 				name: "Lightning Trap Damage",
 				currentBonus: 0,
 				steps: [-1,-1,[1,10,1],[10,20,1],[20,50,2],[50,100,2],[100,199,3]],
-				specialDescription: function (modifier) {
+				specialDescription: /**
+				 * @param {any} modifier
+				 */
+ function (modifier) {
 					return "Increases the damage dealt by Lightning Trap" + ((playerSpireTraps.Lightning.level >= 4) ? ", Shocked, and its column boost to Fire and Poison Traps " : " and Shocked ") + "by " + prettify(modifier) + "%.";
 				},
 			},
@@ -5574,7 +5806,10 @@ var toReturn = {
 				name: "Strength Tower Effect",
 				currentBonus: 0,
 				steps: [[1,10,1],[1,10,1],[1,10,1],[10,20,1],[20,50,2],[50,100,2],[100,199,3]],
-				specialDescription: function (modifier) {
+				specialDescription: /**
+				 * @param {any} modifier
+				 */
+ function (modifier) {
 					return "Increases the damage dealt by Fire Traps on the same Floor as a Strength Tower by " + prettify(modifier) + "%. Does not increase the world bonus to Trimps.";
 				},
 			},
@@ -5583,7 +5818,10 @@ var toReturn = {
 				currentBonus: 0,
 				steps: [-1,[1,5,0.25],[1,5,0.25],[5,10,0.25],[5,15,0.5],[10,20,0.5],[20,30,0.5]],
 				max: [-1,10,10,15,25,35,50],
-				specialDescription: function(modifier) {
+				specialDescription: /**
+				 * @param {any} modifier
+				 */
+ function(modifier) {
 					return "Increases the amount of Poison damage compounded by the Condenser Tower by " + prettify(modifier) + "%. Does not increase the world bonus to Trimps.";
 				}
 			},
@@ -5713,7 +5951,10 @@ var toReturn = {
 				name: "Plaguebringer",
 				currentBonus: 0,
 				heirloopy: true,
-				specialDescription: function (modifier) {
+				specialDescription: /**
+				 * @param {string} modifier
+				 */
+ function (modifier) {
 					return modifier + "% of all non-lethal damage and nature stacks you afflict on your current enemy are copied onto the next enemy. Plaguebringer damage cannot bring an enemy below 5% health, but nature stacks will continue to accumulate."
 				},
 				steps: [-1, -1, -1, -1, -1, -1, -1, -1, [1, 15, 0.5],[15,30,0.5]],
@@ -5733,7 +5974,10 @@ var toReturn = {
 				name: "Gamma Burst",
 				currentBonus: 0,
 				stacks: 0,
-				specialDescription: function(modifier){
+				specialDescription: /**
+				 * @param {any} modifier
+				 */
+ function(modifier){
 					return "Each attack by your Trimps adds 1 stack of Charging. When Charging reaches 5 stacks, your Trimps will release a burst of energy, dealing " + prettify(modifier) + "% of their attack damage. Stacks reset after releasing a Burst or when your Trimps die.";
 				},
 				steps: [-1,-1,-1,-1,-1,-1, -1,-1,-1,[1000,2000,100]],
@@ -5801,7 +6045,10 @@ var toReturn = {
 			},
 			soldiers: 0,
 			maxSoldiers: 1,
-			getCurrentSend: function (checkLevelTemp) {
+			getCurrentSend: /**
+			 * @param {any} [checkLevelTemp]
+			 */
+ function (checkLevelTemp) {
 				var amt = (getPerkLevel("Coordinated")) ? ((checkLevelTemp) ? game.portal.Coordinated.onChange(true) : game.portal.Coordinated.currentSend) : game.resources.trimps.maxSoldiers;
 				if (game.jobs.Amalgamator.owned > 0) {
 					amt *= game.jobs.Amalgamator.getPopulationMult();
@@ -6054,7 +6301,10 @@ var toReturn = {
 			attack: 1, 
 			health: 1,
 			fast: false,
-			loot: function(level){
+			loot: /**
+			 * @param {any} level
+			 */
+ function(level){
 				var imports = [];
 				for (var item in game.unlocks.imps){
 					var badGuy = game.badGuys[item];
@@ -6143,7 +6393,10 @@ var toReturn = {
 			attack: 0.8,
 			health: 1.1,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 0.5, level, true);
 				message("That Chickimp dropped " + prettify(amt) + " food!", "Loot", "apple", null, 'primary');
 			}
@@ -6168,7 +6421,10 @@ var toReturn = {
 			attack: 1,
 			health: 0.85,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 0.5, level, true);
 				message("You hear nearby Kittimps running away in fear and decide to check out their former home. There, you find a prey pile with " + prettify(amt) + " food!", "Loot", "apple", null, 'primary');
 			}
@@ -6179,7 +6435,10 @@ var toReturn = {
 			attack: 1.1,
 			health: 1.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("wood", 0.5, level, true);
 				message("That Grimp dropped " + prettify(amt) + " wood!", "Loot", "tree-deciduous", null, 'primary');
 			}
@@ -6190,7 +6449,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 1.4,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var random = Math.floor(Math.random() * 5);
 				var amt;
 				var res;
@@ -6217,7 +6479,10 @@ var toReturn = {
 			attack: 1.15,
 			health: 1.4,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", 0.5, level, true);
 				message("That Seirimp dropped " + prettify(amt) + " metal! Neat-O.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6227,7 +6492,10 @@ var toReturn = {
 			attack: 0.9,
 			health: 1,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("gems", 0.3, level, true);
 				message("That Slagimp fell over, and " + prettify(amt) + " gems popped out! How about that?!", "Loot", "*diamond", null, 'secondary');
 			}
@@ -6237,7 +6505,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 0.7,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", 0.2, level, true);
 				message("The Moltimp thanked you for the combat, and handed you " + prettify(amt) + " bars of metal! Then he died.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6277,7 +6548,10 @@ var toReturn = {
 			attack: 0.6,
 			health: 1.3,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("wood", 0.35, level, true);
 				message("The Entimp is no more. You manage to salvage " + prettify(amt) + " logs of wood from his trunk!", "Loot", "tree-deciduous", null, 'primary');
 			}
@@ -6287,7 +6561,10 @@ var toReturn = {
 			attack: 1,
 			health: 1.1,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 0.35, level, true);
 				message("Time for some stew! You scored " + prettify(amt) + " food from that Squirrimp!", "Loot", "apple", null, 'primary');
 			}
@@ -6297,7 +6574,10 @@ var toReturn = {
 			attack: 0.8,
 			health: 1.4,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", 0.35, level, true);
 				message("You sift through the Gravelimp, and manage to find " + prettify(amt) + " bars of metal! Good on you!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6309,7 +6589,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 2,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 2, level);
 				rewardResource("wood", 2, level);
 				rewardResource("metal", 2, level);
@@ -6335,7 +6618,12 @@ var toReturn = {
 			attack: 2,
 			health: 5,
 			fast: true,
-			loot: function (level, fromFluffy, fluffyCount) {
+			loot: /**
+			 * @param {number} level
+			 * @param {any} fromFluffy
+			 * @param {string | number} fluffyCount
+			 */
+ function (level, fromFluffy, fluffyCount) {
 				if (game.resources.helium.owned == 0) fadeIn("helium", 10);
 				var amt = (game.global.world >= 60 && game.global.universe == 1) ? 10 : 2;
 				if (mutations.Magma.active()) amt *= 3;
@@ -6439,7 +6727,10 @@ var toReturn = {
 			attack: 1.1,
 			health: 4,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {any} level
+			 */
+ function (level) {
 				checkAchieve("angerTimed");
 				if (game.upgrades.Bounty.done == 0) giveSingleAchieve("Forgot Something");
 			}
@@ -6450,7 +6741,10 @@ var toReturn = {
 			attack: 1,
 			health: 1.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("gems", 0.35, level, false);
 				message("That Dragimp dropped " + prettify(amt) + " gems!", "Loot", "*diamond", null, 'secondary');
 			}
@@ -6462,7 +6756,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 2.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				checkAchieve("blockTimed");
 				var amt = rewardResource("wood", 2, level, true);
 				message("Mitschimp dropped " + prettify(amt) + " wood!", "Loot", "tree-deciduous", null, 'primary');
@@ -6475,7 +6772,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 2.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {any} level
+			 */
+ function (level) {
 				if (game.global.universe == 1)
 					checkAchieve("wallTimed")
 				else if (game.global.universe == 2)
@@ -6488,7 +6788,10 @@ var toReturn = {
 			attack: 1.3,
 			health: 2,
 			fast: true,
-			loot: function(level){
+			loot: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var amt = rewardResource("gems", 1, level, true);
 				message("That Prismimp dropped " + prettify(amt) + " gems, how sweet of it!", "Loot", "*diamond", null, 'secondary');
 			}
@@ -6499,7 +6802,10 @@ var toReturn = {
 			attack: 2,
 			health: 4,
 			fast: false,
-			loot: function(level){
+			loot: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var amt = rewardResource("gems", 4, level, true);
 				message("You feel bad about slaying an incredibly rare Rainbimp, but at least he dropped " + prettify(amt) + " gems! Totally worth.", "Loot", "*diamond", null, 'secondary');	
 			}
@@ -6511,7 +6817,10 @@ var toReturn = {
 			health: 6,
 			fast: false,
 			last: true,
-			loot: function(level){
+			loot: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var amt = rewardResource("gems", 6, level, true);
 				message("The Lightimp's light floats up and away, unbothered by the fact that you just killed its body. Since it doesn't want the body anymore, you break it down in to " + prettify(amt) + " gems!", "Loot", "*diamond", null, 'secondary');
 				checkAchieve("palaceTimed");
@@ -6524,7 +6833,10 @@ var toReturn = {
 			health: 6,
 			fast: false,
 			last: true,
-			loot: function(level){
+			loot: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var amt = rewardResource("metal", 5, level, true);
 				message("What a surprise, the Meltimp is melting! You find a healthy stack of " + prettify(amt) + " metal where it used to be!", "Loot", "*cubes", null, 'primary');
 				checkAchieve("meltingTimed");
@@ -6536,7 +6848,10 @@ var toReturn = {
 			attack: 1.3,
 			health: 2,
 			fast: true,
-			loot: function(level){
+			loot: /**
+			 * @param {number} level
+			 */
+ function(level){
 				var amt = rewardResource("metal", 2, level, true);
 				message("That Sweltimp chucked " + prettify(amt) + " bars of metal right at your head! You'll take it though, thanks guy!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6548,7 +6863,10 @@ var toReturn = {
 			attack: 1.07,
 			health: 0.9,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				checkAchieve("doomTimed");
 				var amt = rewardResource("metal", 2, level, true);
 				message("Indianimp dropped " + prettify(amt) + " metal!", "Loot", "*cubes", null, 'primary');
@@ -6568,7 +6886,10 @@ var toReturn = {
 			attack: 2,
 			health: 3,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {any} level
+			 */
+ function (level) {
 				checkAchieve("prisonTimed");
 				if (game.global.runningChallengeSquared) return;
 				if (game.global.challengeActive == "Electricity" || game.global.challengeActive == "Mapocalypse") {
@@ -6584,7 +6905,10 @@ var toReturn = {
 			attack: 2.1,
 			health: 2.9,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var mapLevel = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].level;
 				if (mapLevel >= game.global.world + 45) giveSingleAchieve("Bionic Sniper");
 				if (mapLevel >= game.global.world + 200) giveSingleAchieve("Bionic Nuker");
@@ -6603,7 +6927,10 @@ var toReturn = {
 			attack: 1,
 			health: 1.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", .25, level, true);
 				message("Mechimp disengaged. Reward encountered: " + prettify(amt) + " bars of metal. Huzzah.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6614,7 +6941,10 @@ var toReturn = {
 			attack: 1.4,
 			health: 0.8,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", .25, level, true);
 				message("Destructimp shorted out. Salvage results: " + prettify(amt) + " bars of metal. Acceptable.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6625,7 +6955,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 1.2,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", .25, level, true);
 				message("Terminatimp Terminated. Findings: " + prettify(amt) + " bars of metal. Hasta la Vista.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6636,7 +6969,10 @@ var toReturn = {
 			attack: 1.4,
 			health: 1.3,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", .5, level, true);
 				message("Autoimp force quit. Memory dump provides " + prettify(amt) + " bars of metal and no clues. It's a feature!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6647,7 +6983,10 @@ var toReturn = {
 			attack: 1.3,
 			health: 1.5,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", 0.3, level, true);
 				message("The Artimp wordlessly sputters, whirrs, beeps, then drops " + prettify(amt) + " perfect cubes of metal on the ground. Cubist art is your favorite!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6661,7 +7000,10 @@ var toReturn = {
 			attack: 1.3,
 			health: 2.5,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				checkAchieve("starTimed");
 				var amt1 = rewardResource("wood", 1.5, level, true);
 				var amt2 = rewardResource("metal", 1.5, level, true);
@@ -6680,7 +7022,10 @@ var toReturn = {
 			attack: 1.4,
 			health: 1.8,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("metal", .5, level, true);
 				message("The Fusimp explodes, leaving behind " + prettify(amt) + " bars of metal and a nice dose of radiation.", "Loot", "*cubes", null, 'primary');
 			}
@@ -6691,7 +7036,10 @@ var toReturn = {
 			attack: 1.8,
 			health: 2.2,
 			fast: false,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 1, level, true);
 				message("Before you can blink, the Hydrogimp vaporizes. That's fine though, it left " + prettify(amt) + " food for you!", "Loot", "apple", null, 'primary');
 			}
@@ -6702,7 +7050,10 @@ var toReturn = {
 			attack: 1,
 			health: 4,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("wood", 1, level, true);
 				message("The Carbimp begins to crackle and shrink. Within a few seconds, all that's left is " + prettify(amt) + " wood.", "Loot", "tree-deciduous", null, 'primary');
 			}
@@ -6716,7 +7067,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 6,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				if (game.global.spireActive) return;
 				if (!game.global.brokenPlanet && game.global.universe == 1) planetBreaker();
 				if (game.global.runningChallengeSquared) return;
@@ -6762,7 +7116,10 @@ var toReturn = {
 			attack: 1.2,
 			health: 6,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				if (game.global.spireActive){
 					return;
 				}
@@ -6788,7 +7145,10 @@ var toReturn = {
 			attack: 3,
 			health: 6,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				amt = rewardResource("metal", 5, level);
 				message("Radioactive waste spills to the ground as the Mutimp falls. You send a few Trimps to grab the shiny stuff in the toxic sludge, which ends up being " + prettify(amt) + " bars of metal!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6799,7 +7159,10 @@ var toReturn = {
 			attack: 5,
 			health: 12,
 			fast: true,
-			loot: function (level) {
+			loot: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				amt = rewardResource("metal", 8, level);
 				message("Radioactive waste spills to the ground as the Hulking Mutimp falls. You send a few Trimps to grab the shiny stuff in the toxic sludge, which ends up being " + prettify(amt) + " bars of metal!", "Loot", "*cubes", null, 'primary');
 			}
@@ -6831,7 +7194,11 @@ var toReturn = {
 			health: 1,
 			dropDesc: "Drops 6x Gems",
 			fast: false,
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {number} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Goblimp";
 				var amt = rewardResource("gems", 3, level, true);
 				message("That " + name + " dropped " + prettify(amt) + " gems! What a bro!", "Loot", "*diamond", "exotic", 'exotic');
@@ -6846,7 +7213,11 @@ var toReturn = {
 			health: 1,
 			dropDesc: "Drops 15x Gems",
 			fast: false,
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {number} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Feyimp";
 				if (game.resources.gems.owned == 0) fadeIn("gems", 10);
 				var amt = rewardResource("gems", 7.5, level);
@@ -6862,7 +7233,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "Drops Fragments",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {number} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Flutimp";
 				var amt = rewardResource("fragments", 1, level, true);
 				message("You stole " + prettify(amt) + " fragments from that " + name + "! It really didn't look like she needed them though, don't feel bad.", "Loot", "th", "exotic", "exotic");
@@ -6877,7 +7252,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "Grants an extra 0.3% of current Trimps",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Tauntimp";
 				var amt = Math.ceil(game.resources.trimps.max * 0.003);
 				if (game.global.challengeActive == "Downsize"){
@@ -6908,7 +7287,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "Grants 0.3% Trimp resource production speed",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Whipimp";
 				game.unlocks.impCount.Whipimp++;
 				game.jobs.Farmer.modifier *= 1.003;
@@ -6931,7 +7314,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "Grants 0.3% Trimp breed speed",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Venimp";
 				game.unlocks.impCount.Venimp++;
 				var amt = Math.pow(1.003, game.unlocks.impCount.Venimp);
@@ -6947,7 +7334,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "45 seconds of production for 1 random resource",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Jestimp";
 				var eligible = ["food", "wood", "metal", "science"];
 				if (game.jobs.Dragimp.owned > 0) eligible.push("gems");
@@ -6968,7 +7359,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "+100% damage for 30 seconds in maps",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Titimp";
 				var timeRemaining = parseInt(game.global.titimpLeft, 10);
 				if (timeRemaining > 0) {
@@ -6991,7 +7386,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "5 seconds of production for all basic resources",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Chronoimp";
 				var eligible = ["food", "wood", "metal", "science"];
 				if (game.jobs.Dragimp.owned > 0) eligible.push("gems");
@@ -7018,7 +7417,11 @@ var toReturn = {
 			health: 1,
 			fast: false,
 			dropDesc: "0.3% extra loot from maps and Zones (Not Helium)",
-			loot: function (level, fromMagimp) {
+			loot: /**
+			 * @param {any} level
+			 * @param {any} fromMagimp
+			 */
+ function (level, fromMagimp) {
 				var name = (fromMagimp) ? "Randimp" : "Magnimp";
 				game.unlocks.impCount.Magnimp++;
 				var amt = Math.pow(1.003, game.unlocks.impCount.Magnimp);
@@ -7151,7 +7554,10 @@ var toReturn = {
 			title: "RoboTrimp",
 			canRunWhenever: true,
 			filterUpgrade: true,
-			specialFilter: function (world) {
+			specialFilter: /**
+			 * @param {number} world
+			 */
+ function (world) {
 				var tier = Math.floor((world - 125) / 15);
 				return ((game.global.bionicOwned == tier + 1) || (game.global.roboTrimpLevel == tier));
 			},
@@ -7161,7 +7567,10 @@ var toReturn = {
 				if (level == 1) return 0.85;
 				return (0.85 * Math.pow(0.90, level - 1));
 			},
-			createMap: function(tier) {
+			createMap: /**
+			 * @param {number} tier
+			 */
+ function(tier) {
 				game.global.bionicOwned++;
 				if (game.global.bionicOwned == 1)
 					message("You found a map to the Bionic Wonderland. Sounds fun!", "Story");
@@ -7171,7 +7580,10 @@ var toReturn = {
 				createMap(((tier * 15) + 125), "Bionic Wonderland " + roman, "Bionic", 3, 100, 2.6, true);
 				purgeBionics();
 			},
-			fire: function (fromTalent) {
+			fire: /**
+			 * @param {boolean} fromTalent
+			 */
+ function (fromTalent) {
 				var level = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].level;
 				var bionicTier = parseInt(((level - 125) / 15), 10) + 1;
 				if (bionicTier == game.global.bionicOwned) {
@@ -7224,7 +7636,10 @@ var toReturn = {
 			title: "Auspicious Presence",
 			canRunOnce: true,
 			filterUpgrade: true,
-			specialFilter: function(world) {
+			specialFilter: /**
+			 * @param {any} world
+			 */
+ function(world) {
 				return !game.global.autoStorageAvailable;
 			},
 			fire: function(){
@@ -7243,7 +7658,10 @@ var toReturn = {
 			title: "Auspicious Presence Part II",
 			canRunOnce: true,
 			filterUpgrade: true,
-			specialFilter: function(world) {
+			specialFilter: /**
+			 * @param {any} world
+			 */
+ function(world) {
 				return !game.global.improvedAutoStorage;
 			},
 			fire: function(){
@@ -7261,7 +7679,10 @@ var toReturn = {
 			title: "Auspicious Presence Part III",
 			canRunOnce: true,
 			filterUpgrade: true,
-			specialFilter: function(world) {
+			specialFilter: /**
+			 * @param {any} world
+			 */
+ function(world) {
 				return !game.global.canMapAtZone;
 			},
 			fire: function(){
@@ -7280,7 +7701,10 @@ var toReturn = {
 			title: "Auspicious Presence Part IV",
 			canRunOnce: true,
 			filterUpgrade: true,
-			specialFilter: function(world){
+			specialFilter: /**
+			 * @param {any} world
+			 */
+ function(world){
 				return !game.global.autoEquipUnlocked;
 			},
 			fire: function(){
@@ -7299,7 +7723,10 @@ var toReturn = {
 			title: "Ancient Treasure",
 			canRunOnce: true,
 			filterUpgrade: true,
-			specialFilter: function(world) {
+			specialFilter: /**
+			 * @param {any} world
+			 */
+ function(world) {
 				return !game.portal.Relentlessness.locked;
 			},
 			fire: function(){
@@ -7375,7 +7802,11 @@ var toReturn = {
 			title: "Portal",
 			filterUpgrade: true,
 			canRunOnce: true,
-			fire: function (level, fromGenerator) {
+			fire: /**
+			 * @param {any} level
+			 * @param {any} fromGenerator
+			 */
+ function (level, fromGenerator) {
 				if (!this.canRunOnce) return;
 				var color = (game.global.universe == 2) ? "blue" : "green";
 				var resource = heliumOrRadon();
@@ -7614,7 +8045,10 @@ var toReturn = {
 		},
 		Speedexplorer: {
 			world: -1,
-			specialFilter: function (mapLevel) {
+			specialFilter: /**
+			 * @param {number} mapLevel
+			 */
+ function (mapLevel) {
 				var booksNeeded = Math.floor((mapLevel - this.next) / 10);
 				return (booksNeeded > 0);
 			},
@@ -7623,7 +8057,11 @@ var toReturn = {
 			icon: "book",
 			title: "A well-hidden book",
 			next: 10,
-			fire: function (unused, fromAuto) {
+			fire: /**
+			 * @param {any} unused
+			 * @param {any} fromAuto
+			 */
+ function (unused, fromAuto) {
 				var mapLevel;
 				if (!fromAuto){
 					if (!getCurrentMapObject() || !getCurrentMapObject().level) return;
@@ -7893,7 +8331,10 @@ var toReturn = {
 			icon: "*diamond",
 			title: "Gems",
 			repeat: 5,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("gems", 0.5, level, true);
 				message("You found " + prettify(amt) + " gems! Terrific!", "Loot", "*diamond", null, "secondary");
 			}
@@ -7906,7 +8347,10 @@ var toReturn = {
 			icon: "*diamond",
 			title: "Gems",
 			filter: true,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("gems", 0.5, level, true);
 				message("You found " + prettify(amt) + " gems! Terrific!", "Loot", "*diamond", null, "secondary");
 			}
@@ -7918,7 +8362,10 @@ var toReturn = {
 			title: "Food/Wood/Metal",
 			repeat: 2,
 			filter: true,
-			fire: function (level) {
+			fire: /**
+			 * @param {any} level
+			 */
+ function (level) {
 				var rand = Math.floor(Math.random() * 3);
 				switch(rand) {
 					case 0:
@@ -7940,7 +8387,10 @@ var toReturn = {
 			title: "Metal",
 			repeat: 2,
 			filter: true,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				if (game.global.challengeActive == "Transmute"){
 					message("As expected, there was no Metal here.", "Loot", "*cubes", null, "primary");
 					return;
@@ -7956,7 +8406,10 @@ var toReturn = {
 			title: "Food",
 			repeat: 2,
 			filter: true,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 0.5, level, true);
 				message("That guy just left " + prettify(amt) + " food on the ground! Sweet!", "Loot", "apple", null, "primary");
 			}
@@ -7968,7 +8421,10 @@ var toReturn = {
 			title: "Wood",
 			repeat: 2,
 			filter: true,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("wood", 0.5, level, true);
 				message("You just found " + prettify(amt) + " wood! That's pretty neat!", "Loot", "tree-deciduous", null, "primary");
 			}
@@ -8660,7 +9116,10 @@ var toReturn = {
 			icon: "apple",
 			title: "Food",
 			repeat: 9,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("food", 0.5, level);
 				message("That guy just left " + prettify(amt) + " food on the ground! Sweet!", "Loot", "apple", null, 'primary');
 			}
@@ -8671,7 +9130,10 @@ var toReturn = {
 			icon: "tree-deciduous",
 			title: "Wood",
 			repeat: 8,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				var amt = rewardResource("wood", 0.5, level);
 				message("You just found " + prettify(amt) + " wood! That's pretty neat!", "Loot", "tree-deciduous", null, 'primary');
 			}
@@ -8682,7 +9144,10 @@ var toReturn = {
 			title: "Metal",
 			icon: "*cubes",
 			repeat: 6,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				if (game.global.challengeActive == "Transmute"){
 					message("As expected, there was no Metal here.", "Loot", "*cubes", null, "primary");
 					return;
@@ -8696,7 +9161,10 @@ var toReturn = {
 			start: 200,
 			level: [1,4],
 			repeat: 4,
-			fire: function (level) {
+			fire: /**
+			 * @param {number} level
+			 */
+ function (level) {
 				if (game.global.challengeActive == "Transmute"){
 					message("As expected, there was no Metal here.", "Loot", "*cubes", null, "primary");
 					return;
@@ -9183,7 +9651,11 @@ var toReturn = {
 			},
 			increase: "custom",
 			modifier: 1,
-			getBonusPercent: function (justStacks, forceTime) {
+			getBonusPercent: /**
+			 * @param {any} [justStacks]
+			 * @param {any} [forceTime]
+			 */
+ function (justStacks, forceTime) {
 				var boostMult = 0.9999;
 				var boostMax = 3;
 				var expInc = 1.2;
@@ -9433,7 +9905,11 @@ var toReturn = {
 					science: [100000000000, 1.4]
 				}
 			},
-			fire: function (heldCtrl, noTip) {
+			fire: /**
+			 * @param {any} heldCtrl
+			 * @param {boolean} noTip
+			 */
+ function (heldCtrl, noTip) {
 				if (game.buildings.Warpstation.purchased > game.buildings.Warpstation.owned){
 					clearQueue('Warpstation');
 				}
